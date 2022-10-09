@@ -1,1 +1,2 @@
-* * * * * /src/run_script.sh && echo "running" >> /test.txt
+# Doesn't work without the second command. Don't touch
+0 12 * * 6 /src/run_script.sh && echo "running" >> /test.txt
