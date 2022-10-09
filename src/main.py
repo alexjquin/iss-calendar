@@ -25,35 +25,35 @@ def make_datetime(date_str: str, duration_str=None) -> datetime.datetime:
 # print(CLIENT_ID)
 
 old_stdout = sys.stdout
-log_file = open("message.log", "a")
+log_file = open("/var/log/message.log", "a")
 sys.stdout = log_file
+sys.stderr = log_file
+print(f"Checking ISS Calendar {datetime.datetime.now()}")
 
-print("Running Code")
+URL = "https://spotthestation.nasa.gov/sightings/view.cfm?country=Canada&region=British_Columbia&city=Burnaby#.YzyIf0zMKUk"
 
-# URL = "https://spotthestation.nasa.gov/sightings/view.cfm?country=Canada&region=British_Columbia&city=Burnaby#.YzyIf0zMKUk"
-#
-# html = requests.get(URL)
-# html.raise_for_status()
-#
-# soup = BeautifulSoup(html.text, "html.parser")
-#
-# rows = soup.find_all(name="tr")
-#
-# interface = Interface()
-#
-# months_mapping = {month: index for index, month in enumerate(calendar.month_abbr) if month}
-#
-# for row in rows[1:]:
-#     data = row.find_all(name="td")
-#
-#     start_timestamp = make_datetime(data[0].getText())
-#     end_timestamp = make_datetime(data[0].getText(), data[1].getText())
-#
-#     max_height = data[2].getText()
-#     appears = data[3].getText()
-#     disappears = data[4].getText()
-#
-#     if not interface.check_for_event(start_timestamp):
-#         interface.create_event(start_timestamp, end_timestamp, max_height, appears, disappears)
+html = requests.get(URL)
+html.raise_for_status()
+
+soup = BeautifulSoup(html.text, "html.parser")
+
+rows = soup.find_all(name="tr")
+
+interface = Interface()
+
+months_mapping = {month: index for index, month in enumerate(calendar.month_abbr) if month}
+
+for row in rows[1:]:
+    data = row.find_all(name="td")
+
+    start_timestamp = make_datetime(data[0].getText())
+    end_timestamp = make_datetime(data[0].getText(), data[1].getText())
+
+    max_height = data[2].getText()
+    appears = data[3].getText()
+    disappears = data[4].getText()
+
+    if not interface.check_for_event(start_timestamp):
+        interface.create_event(start_timestamp, end_timestamp, max_height, appears, disappears)
 
 log_file.close()

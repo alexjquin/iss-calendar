@@ -9,7 +9,6 @@ ADD src /src
 RUN pip install --upgrade pip && pip install -r /src/requirements.txt
 
 # RUN python3 /src/main.py
-RUN apt-get -y install rsyslog
 
 # Give execution rights on the cron job
 RUN chmod 0644 /src/iss-cron

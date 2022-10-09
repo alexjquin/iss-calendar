@@ -94,7 +94,7 @@ class Interface:
 
 def generate_event_id(date: datetime.datetime) -> str:
     iteration = 8
-    return date.strftime(f"test{iteration}issoverhead%Y%m%d")
+    return date.strftime("issoverhead%Y%m%d")
 
 
 def to_api_datetime(date: datetime.datetime) -> str:
